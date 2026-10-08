@@ -1,0 +1,26 @@
+{
+ "name": "Mô phỏng suy giảm pin lithium",
+ "short_name": "Pin Lithium",
+ "description": "Mô phỏng SoH, RTE và nhiệt độ cell pin lithium trong 25 năm",
+ "lang": "vi",
+ "start_url": "./index.html",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#0b2a30",
+ "theme_color": "#0b2a30",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any maskable"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any maskable"
+  }
+ ]
+}

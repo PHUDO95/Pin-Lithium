@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mô phỏng suy giảm pin lithium 25 năm</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0b2a30">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap&subset=vietnamese">
+<style>
+:root{--bg:#eaf0f1;--card:#fff;--ink:#12353a;--mut:#5a7276;--line:#cfdadc;--soh:#1f6fb2;--rte:#2a9161;--tmp:#d4781c;--warn:#b3261e;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a1c;--card:#16272a;--ink:#e3eeef;--mut:#93aaad;--line:#2b4044;--soh:#5aa8e8;--rte:#52c48e;--tmp:#f0a04b;--warn:#ff8a80}}
+:root[data-theme="dark"]{--bg:#0e1a1c;--card:#16272a;--ink:#e3eeef;--mut:#93aaad;--line:#2b4044;--soh:#5aa8e8;--rte:#52c48e;--tmp:#f0a04b;--warn:#ff8a80}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "IBM Plex Sans",system-ui,"Segoe UI",Arial,sans-serif}
+main{max-width:1060px;margin:0 auto;padding:20px 16px 40px}
+.hero{position:relative;overflow:hidden;border-radius:8px;margin:0 0 18px;padding:36px 26px;min-height:190px;background:linear-gradient(120deg,#0b2a30 0%,#12414a 55%,#1b5a63 100%)}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(8,32,38,.94) 0%,rgba(8,32,38,.6) 45%,rgba(8,32,38,0) 78%)}
+.hero svg.bg{position:absolute;right:0;top:0;width:78%;height:100%}
+.hero h1,.hero .sub{position:relative;z-index:2;max-width:520px}
+.hero h1{color:#fff}.hero .sub{color:#c6dadd;margin-bottom:0}
+@media (max-width:640px){.hero svg.bg{width:100%;opacity:.5}.hero{padding:26px 18px}}
+h1{font-size:1.6rem;font-weight:600;margin:0 0 4px;letter-spacing:-.01em}
+h2{font-size:1rem;font-weight:600;margin:0 0 8px}
+.sub{color:var(--mut);margin:0 0 18px;max-width:70ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 22px}
+label{display:block;font-size:.9rem;color:var(--mut)}
+label b{color:var(--ink);font-weight:600;float:right}
+input[type=range]{width:100%;accent-color:var(--soh);margin:6px 0 0}
+select{width:100%;margin-top:6px;padding:7px 8px;border:1px solid var(--line);border-radius:4px;background:var(--card);color:var(--ink);font:inherit}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.kpi .card{padding:10px 14px}
+.kpi small{color:var(--mut);display:block}
+.kpi strong{font-size:1.25rem;font-weight:600}
+button{font:inherit;padding:8px 12px;border:1px solid var(--soh);background:transparent;color:var(--soh);border-radius:4px;cursor:pointer;align-self:end}
+.warn{color:var(--warn);font-weight:500;margin:10px 0 0;display:none}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:12px}
+svg{width:100%;height:auto;display:block}
+.ax{stroke:var(--line);stroke-width:1}.tx{fill:var(--mut);font-size:11px}
+.tw{overflow-x:auto;margin-top:12px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-variant-numeric:tabular-nums}
+th,td{padding:5px 10px;text-align:right;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--mut);position:sticky;top:0;background:var(--card)}
+th:first-child,td:first-child{text-align:left}
+ul.n{margin:6px 0 0;padding-left:18px;color:var(--mut);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+<header class="hero"><svg class="bg" viewBox="0 0 700 220" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false">
+<defs><linearGradient id="tw" x1="0" x2="1"><stop offset="0" stop-color="#f4f8f9"/><stop offset="1" stop-color="#cfdadc"/></linearGradient><radialGradient id="sn"><stop offset="0" stop-color="#ffb84d" stop-opacity=".55"/><stop offset="1" stop-color="#ffb84d" stop-opacity="0"/></radialGradient></defs>
+<g stroke="#ffffff" stroke-opacity=".06"><line x1="0" x2="0" y1="0" y2="220"/><line x1="40" x2="40" y1="0" y2="220"/><line x1="80" x2="80" y1="0" y2="220"/><line x1="120" x2="120" y1="0" y2="220"/><line x1="160" x2="160" y1="0" y2="220"/><line x1="200" x2="200" y1="0" y2="220"/><line x1="240" x2="240" y1="0" y2="220"/><line x1="280" x2="280" y1="0" y2="220"/><line x1="320" x2="320" y1="0" y2="220"/><line x1="360" x2="360" y1="0" y2="220"/><line x1="400" x2="400" y1="0" y2="220"/><line x1="440" x2="440" y1="0" y2="220"/><line x1="480" x2="480" y1="0" y2="220"/><line x1="520" x2="520" y1="0" y2="220"/><line x1="560" x2="560" y1="0" y2="220"/><line x1="600" x2="600" y1="0" y2="220"/><line x1="640" x2="640" y1="0" y2="220"/><line x1="680" x2="680" y1="0" y2="220"/><line x1="0" x2="700" y1="20" y2="20"/><line x1="0" x2="700" y1="60" y2="60"/><line x1="0" x2="700" y1="100" y2="100"/><line x1="0" x2="700" y1="140" y2="140"/><line x1="0" x2="700" y1="180" y2="180"/></g>
+<circle cx="640" cy="42" r="90" fill="url(#sn)"/>
+<polyline points="40,40 130,52 220,66 310,80 400,92 490,102 580,110 690,118" fill="none" stroke="#5aa8e8" stroke-opacity=".35" stroke-width="2"/>
+<rect x="0" y="196" width="700" height="24" fill="#08202a" opacity=".6"/>
+<rect x="300" y="72" width="74" height="118" rx="3" fill="url(#tw)"/><rect x="300" y="72" width="74" height="14" rx="3" fill="#dfe7e9"/><rect x="310" y="77" width="26" height="4" rx="2" fill="#52c48e"/><line x1="300" x2="374" y1="94" y2="94" stroke="#b5c3c6" stroke-width=".8"/><circle cx="362" cy="83" r="4" fill="#8da0a4" opacity=".6"/><line x1="300" x2="374" y1="116" y2="116" stroke="#b5c3c6" stroke-width=".8"/><circle cx="362" cy="105" r="4" fill="#8da0a4" opacity=".6"/><line x1="300" x2="374" y1="138" y2="138" stroke="#b5c3c6" stroke-width=".8"/><circle cx="362" cy="127" r="4" fill="#8da0a4" opacity=".6"/><line x1="300" x2="374" y1="160" y2="160" stroke="#b5c3c6" stroke-width=".8"/><circle cx="362" cy="149" r="4" fill="#8da0a4" opacity=".6"/><line x1="300" x2="374" y1="182" y2="182" stroke="#b5c3c6" stroke-width=".8"/><circle cx="362" cy="171" r="4" fill="#8da0a4" opacity=".6"/><rect x="297" y="190" width="80" height="6" fill="#1d3a40"/><rect x="388" y="48" width="74" height="142" rx="3" fill="url(#tw)"/><rect x="388" y="48" width="74" height="14" rx="3" fill="#dfe7e9"/><rect x="398" y="53" width="26" height="4" rx="2" fill="#52c48e"/><line x1="388" x2="462" y1="70" y2="70" stroke="#b5c3c6" stroke-width=".8"/><circle cx="450" cy="59" r="4" fill="#8da0a4" opacity=".6"/><line x1="388" x2="462" y1="92" y2="92" stroke="#b5c3c6" stroke-width=".8"/><circle cx="450" cy="81" r="4" fill="#8da0a4" opacity=".6"/><line x1="388" x2="462" y1="114" y2="114" stroke="#b5c3c6" stroke-width=".8"/><circle cx="450" cy="103" r="4" fill="#8da0a4" opacity=".6"/><line x1="388" x2="462" y1="136" y2="136" stroke="#b5c3c6" stroke-width=".8"/><circle cx="450" cy="125" r="4" fill="#8da0a4" opacity=".6"/><line x1="388" x2="462" y1="158" y2="158" stroke="#b5c3c6" stroke-width=".8"/><circle cx="450" cy="147" r="4" fill="#8da0a4" opacity=".6"/><line x1="388" x2="462" y1="180" y2="180" stroke="#b5c3c6" stroke-width=".8"/><circle cx="450" cy="169" r="4" fill="#8da0a4" opacity=".6"/><rect x="385" y="190" width="80" height="6" fill="#1d3a40"/><rect x="476" y="24" width="74" height="166" rx="3" fill="url(#tw)"/><rect x="476" y="24" width="74" height="14" rx="3" fill="#dfe7e9"/><rect x="486" y="29" width="26" height="4" rx="2" fill="#52c48e"/><line x1="476" x2="550" y1="46" y2="46" stroke="#b5c3c6" stroke-width=".8"/><circle cx="538" cy="35" r="4" fill="#8da0a4" opacity=".6"/><line x1="476" x2="550" y1="68" y2="68" stroke="#b5c3c6" stroke-width=".8"/><circle cx="538" cy="57" r="4" fill="#8da0a4" opacity=".6"/><line x1="476" x2="550" y1="90" y2="90" stroke="#b5c3c6" stroke-width=".8"/><circle cx="538" cy="79" r="4" fill="#8da0a4" opacity=".6"/><line x1="476" x2="550" y1="112" y2="112" stroke="#b5c3c6" stroke-width=".8"/><circle cx="538" cy="101" r="4" fill="#8da0a4" opacity=".6"/><line x1="476" x2="550" y1="134" y2="134" stroke="#b5c3c6" stroke-width=".8"/><circle cx="538" cy="123" r="4" fill="#8da0a4" opacity=".6"/><line x1="476" x2="550" y1="156" y2="156" stroke="#b5c3c6" stroke-width=".8"/><circle cx="538" cy="145" r="4" fill="#8da0a4" opacity=".6"/><line x1="476" x2="550" y1="178" y2="178" stroke="#b5c3c6" stroke-width=".8"/><circle cx="538" cy="167" r="4" fill="#8da0a4" opacity=".6"/><rect x="473" y="190" width="80" height="6" fill="#1d3a40"/><rect x="564" y="4" width="74" height="186" rx="3" fill="url(#tw)"/><rect x="564" y="4" width="74" height="14" rx="3" fill="#dfe7e9"/><rect x="574" y="9" width="26" height="4" rx="2" fill="#52c48e"/><line x1="564" x2="638" y1="26" y2="26" stroke="#b5c3c6" stroke-width=".8"/><circle cx="626" cy="15" r="4" fill="#8da0a4" opacity=".6"/><line x1="564" x2="638" y1="48" y2="48" stroke="#b5c3c6" stroke-width=".8"/><circle cx="626" cy="37" r="4" fill="#8da0a4" opacity=".6"/><line x1="564" x2="638" y1="70" y2="70" stroke="#b5c3c6" stroke-width=".8"/><circle cx="626" cy="59" r="4" fill="#8da0a4" opacity=".6"/><line x1="564" x2="638" y1="92" y2="92" stroke="#b5c3c6" stroke-width=".8"/><circle cx="626" cy="81" r="4" fill="#8da0a4" opacity=".6"/><line x1="564" x2="638" y1="114" y2="114" stroke="#b5c3c6" stroke-width=".8"/><circle cx="626" cy="103" r="4" fill="#8da0a4" opacity=".6"/><line x1="564" x2="638" y1="136" y2="136" stroke="#b5c3c6" stroke-width=".8"/><circle cx="626" cy="125" r="4" fill="#8da0a4" opacity=".6"/><line x1="564" x2="638" y1="158" y2="158" stroke="#b5c3c6" stroke-width=".8"/><circle cx="626" cy="147" r="4" fill="#8da0a4" opacity=".6"/><line x1="564" x2="638" y1="180" y2="180" stroke="#b5c3c6" stroke-width=".8"/><circle cx="626" cy="169" r="4" fill="#8da0a4" opacity=".6"/><rect x="561" y="190" width="80" height="6" fill="#1d3a40"/>
+<path d="M638 30 L638 190 M626 60 L650 60 M628 80 L648 80 M632 100 L644 100" stroke="#8fb3ba" stroke-width="2" fill="none" opacity=".7"/>
+<path d="M566 78 C 600 60 620 56 638 58 M638 58 C 660 56 680 62 700 74" stroke="#52c48e" stroke-width="1.6" stroke-dasharray="5 4" fill="none" opacity=".8"/>
+</svg>
+<h1>Mô phỏng suy giảm pin lithium trong 25 năm</h1>
+<p class="sub">Nhập điều kiện vận hành để xem SoH, hiệu suất khứ hồi (RTE) và nhiệt độ làm việc của cell theo từng năm.</p></header>
+
+<section class="card ctl" aria-label="Điều kiện vận hành">
+<label>Hóa học cell
+<select id="chem"><option value="SIG">LFP – SigenStack BAT 12.0 (theo datasheet)</option><option value="LFP">LFP tổng quát (LiFePO₄)</option><option value="NMC">NMC</option></select></label>
+<label>Nhiệt độ môi trường <b id="vT"></b><input id="T" type="range" min="-10" max="50" step="1" value="25"></label>
+<label>Tỉ lệ sạc/xả (C-rate) <b id="vC"></b><input id="C" type="range" min="0.25" max="2" step="0.25" value="0.5"></label>
+<label>Số chu kỳ mỗi ngày <b id="vN"></b><input id="N" type="range" min="0.25" max="3" step="0.25" value="2"></label>
+<label>Độ sâu xả (DoD) <b id="vD"></b><input id="D" type="range" min="50" max="100" step="5" value="100"></label>
+<label>Số module BAT 12.0 <b id="vM"></b><input id="M" type="range" min="4" max="21" step="1" value="5"></label>
+<label>RTE đầu đời tại 0,5C <b id="vR"></b><input id="R" type="range" min="90" max="99.5" step="0.1" value="97.5"></label>
+<label>Điều kiện làm mát
+<select id="cool"><option value="0.15" selected>Cưỡng bức (quạt/HVAC tốt; BAT 12.0: làm mát khí thông minh)</option><option value="0.35">Đối lưu tự nhiên</option><option value="0.6">Kín, thông gió kém</option></select></label>
+<label>Bức xạ mặt trời lên tủ
+<select id="S"><option value="0" selected>Không (lắp trong nhà)</option><option value="3">Ngoài trời, có mái che (+3 K)</option><option value="8">Ngoài trời, nắng trực tiếp (+8 K)</option></select></label>
+<button id="ref" type="button">Đặt điều kiện chuẩn của nhà sản xuất</button>
+</section>
+<p class="warn" id="warn"></p>
+<section class="card" id="ds" style="margin-top:12px"><h2>Thông số datasheet đã áp dụng (SigenStack BAT 12.0, bản 20260924)</h2>
+<ul class="n">
+<li>Cell LiFePO₄ 314 Ah; 12,06 kWh mỗi module; 4–21 module (tối đa 253 kWh).</li>
+<li>Đường cong SoH theo năm của nhà sản xuất (25°C, 0,5C, 2 chu kỳ/ngày, 365 ngày/năm): 92,3% năm 1, 79,5% năm 5, 67,4% năm 10, 61,5% năm 13.</li>
+<li>Mốc tuổi thọ 10.000 chu kỳ đến SoH 60% (25±2°C, 0,5C), phù hợp với đường cong trên.</li>
+<li>IEC 62619:2022 (Intertek 250219087SZN-001): hệ pin đạt yêu cầu an toàn đối với pin lithium-ion dùng trong công nghiệp.</li>
+<li>EN IEC 61000-6-1/-2/-3/-4 (Intertek 241015028SZN-VOC001): đạt yêu cầu miễn nhiễm và phát xạ điện từ cho môi trường dân dụng, thương mại và công nghiệp.</li>
+<li>Tuyên bố EU ngày 20/03/2025: nhà sản xuất tuyên bố sản phẩm tuân thủ Quy định pin EU 2023/1542, chỉ thị EMC 2014/30/EU, REACH và RoHS.</li>
+<li>C-rate danh định 0,5C, tối đa 1C; nhiệt độ vận hành −20°C đến 55°C; nhiệt độ lưu trữ −25°C đến 60°C; làm mát khí thông minh; IP66.</li>
+<li>Datasheet không công bố nội trở, RTE, lão hóa theo thời gian và điều khoản bảo hành SoH. Các giá trị này là ước tính của mô hình.</li>
+</ul></section>
+
+<section class="kpi" id="kpi"></section>
+
+<section class="charts">
+<div class="card"><h2>SoH theo năm (%)</h2><svg id="c1" viewBox="0 0 400 230" role="img" aria-label="Biểu đồ SoH"></svg><p class="sub" id="cap" style="font-size:.8rem;margin:4px 0 0"></p></div>
+<div class="card"><h2>Hiệu suất khứ hồi RTE (%)</h2><svg id="c2" viewBox="0 0 400 230" role="img" aria-label="Biểu đồ RTE"></svg></div>
+<div class="card"><h2>Nhiệt độ làm việc của cell (°C)</h2><svg id="c3" viewBox="0 0 400 230" role="img" aria-label="Biểu đồ nhiệt độ"></svg><p class="sub" id="cap3" style="font-size:.8rem;margin:4px 0 0"></p></div>
+</section>
+
+<section class="card tw" style="margin-top:12px"><table id="tb"></table></section>
+
+<section class="card" style="margin-top:12px">
+<h2>Giả định của mô hình</h2>
+<ul class="n">
+<li>Mô hình bán thực nghiệm: lão hóa theo thời gian (căn bậc hai, phụ thuộc Arrhenius) cộng lão hóa theo chu kỳ (phụ thuộc C-rate, nhiệt độ, DoD), có đoạn tăng tốc khi SoH dưới 75%.</li>
+<li>Nhiệt độ cell cuối pha xả = nhiệt độ môi trường + bức xạ mặt trời + độ tăng nhiệt. Độ tăng nhiệt gồm nhiệt Joule I²R và nhiệt entropy thuận nghịch theo Bernardi (dU/dT = −0,1 mV/K với LFP, tỏa nhiệt khi xả, thu nhiệt khi sạc; triệt tiêu trong cả chu kỳ nên không ảnh hưởng RTE).</li>
+<li>Quán tính nhiệt: mô hình RC một khối, nhiệt dung 8,7 kg/kWh (khối lượng và dung lượng module theo datasheet) × 1.000 J/kg·K; nhiệt độ cuối pha xả tính theo trạng thái tuần hoàn của chuỗi sạc, xả và nghỉ.</li>
+<li>Cell nóng nhất cao hơn cell trung bình 15%, 30% hoặc 50% độ tăng nhiệt (theo kiểu làm mát); khi tính lão hóa, pin chịu nhiệt độ cell trung bình cộng nửa chênh lệch này vì cell yếu nhất quyết định dung lượng pin.</li>
+<li>Bức xạ mặt trời: độ tăng nhiệt cực đại +0, +3 hoặc +8 K tùy vị trí lắp đặt; giá trị trung bình ngày lấy bằng một nửa khi tính lão hóa.</li>
+<li>Nội trở tăng theo mức suy giảm (khoảng 1,7 lần tại SoH 80% với LFP); RTE = 1 − 2·Rᵢ·C − tổn hao phụ trợ 0,5%. Ô RTE đầu đời đặt lại nội trở đầu đời của mô hình (mặc định là ước tính, datasheet không công bố RTE).</li>
+<li>Với tùy chọn SigenStack BAT 12.0, lão hóa theo chu kỳ được khớp với đường cong của nhà sản xuất tại một điều kiện duy nhất. Ảnh hưởng của nhiệt độ, C-rate, số chu kỳ/ngày và lão hóa theo thời gian ở điều kiện khác, cùng nội trở và RTE, là giả định điển hình. Cần đối chiếu điều khoản bảo hành của nhà sản xuất trước khi dùng cho hồ sơ kỹ thuật.</li>
+</ul>
+</section>
+</main>
+<script>
+var CH={SIG:{r1:.02,kcal:.018,a:.0015998,b:.0000123976,noknee:1,g:3.5,ea:5000,tmax:55,tmin:-20,cmax:1,du:1e-4,v:3.2,cth:8700},LFP:{r1:.016,kcal:.018,kcyc:.00003,g:3.5,ea:5000,du:1e-4,v:3.2,cth:8700},NMC:{r1:.014,kcal:.025,kcyc:.00008,g:3.0,ea:6000,du:5e-5,v:3.65,cth:7000}};
+var $=function(i){return document.getElementById(i)};
+function sim(p){
+  var c=CH[p.chem],efc=p.n*p.D*365,hrs=p.n*p.D*2/p.C,duty=Math.min(1,hrs/24),soh=1,N=0,rows=[];
+  var fR=function(T){return Math.exp(2400*(1/(T+273.15)-1/298.15))};
+  var tau=p.rth*c.cth,ton=2*p.D/p.C*3600,toff=Math.max(0,86400/p.n-ton),a0=Math.exp(-ton/tau),ph=(1-a0)/(1-a0*Math.exp(-toff/tau)),psi=p.rth<.2?.15:(p.rth<.5?.3:.5);
+  for(var y=0;y<=25;y++){
+    var rr=1+c.g*(1-soh),Tc=p.T+p.sol,i,r,dO,dR;
+    for(i=0;i<8;i++){r=p.r1*fR(Tc)*rr;dO=p.rth*1000*p.C*p.C*r;dR=p.rth*1000*p.C*(Tc+273.15)*c.du/c.v;Tc=p.T+p.sol+ph*(dO+dR)}
+    r=p.r1*fR(Tc)*rr;dO=p.rth*1000*p.C*p.C*r;
+    var rise=Tc-p.T-p.sol,Th=Tc+psi*rise;
+    rows.push({y:y,soh:soh*100,rte:Math.max(0,1-2*r*p.C-.005)*100,tc:Tc,th:Th,rr:rr,efc:efc*y});
+    if(y==25)break;
+    var Ta=p.T+.5*p.sol+duty*dO*(1+.5*psi),Tw=Tc+.5*psi*rise;
+    var fcal=Math.min(4,Math.max(.3,Math.exp(c.ea*(1/298.15-1/(Ta+273.15)))));
+    var dcal=c.kcal*fcal*(Math.sqrt(y+1)-Math.sqrt(y));
+    var fT=Tw>=25?Math.exp(3000*(1/298.15-1/(Tw+273.15))):1+(Tw<15?.06*(15-Tw)*Math.max(.5,p.C):0);
+    var Nn=N+efc,base=c.a?c.a*(Math.sqrt(Nn)-Math.sqrt(N))+c.b*efc:c.kcyc*efc;N=Nn;
+    var dcyc=base*fT*Math.pow(p.C/.5,.35)*(.6+.5*p.D);
+    var knee=(soh<.75&&!c.noknee)?1+4*(.75-soh):1;
+    soh=Math.max(0,soh-(dcal+dcyc)*knee);
+  }
+  return {rows:rows,hrs:hrs,efc:efc,ph:ph,tau:tau};
+}
+var REF=[100,92.3,88.1,85.1,82.2,79.5,76.8,74.2,71.8,69.6,67.4,65.3,63.35,61.5];
+function chart(id,vals,col,lo,hi,fmt,refs,pts,v2){
+  var W=400,H=230,L=40,R=10,T=10,B=28,pw=W-L-R,ph=H-T-B,s='';
+  var X=function(i){return L+pw*i/25},Y=function(v){return T+ph*(1-(v-lo)/(hi-lo))};
+  for(var k=0;k<=4;k++){var v=lo+(hi-lo)*k/4;s+='<line class="ax" x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'"/><text class="tx" x="'+(L-5)+'" y="'+(Y(v)+4)+'" text-anchor="end">'+fmt(v)+'</text>'}
+  for(var x=0;x<=25;x+=5)s+='<text class="tx" x="'+X(x)+'" y="'+(H-8)+'" text-anchor="middle">'+x+'</text>';
+  (refs||[]).forEach(function(r){if(r>lo&&r<hi)s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(r)+'" y2="'+Y(r)+'" stroke="var(--warn)" stroke-dasharray="4 3" opacity=".7"/><text class="tx" x="'+(W-R)+'" y="'+(Y(r)-3)+'" text-anchor="end" fill="var(--warn)">'+r+'%</text>'});
+  s+='<polyline fill="none" stroke="var('+col+')" stroke-width="2.5" points="'+vals.map(function(v,i){return X(i).toFixed(1)+','+Y(Math.min(hi,Math.max(lo,v))).toFixed(1)}).join(' ')+'"/>';
+  if(v2)s+='<polyline fill="none" stroke="var('+col+')" stroke-width="2" stroke-dasharray="6 4" points="'+v2.map(function(v,i){return X(i).toFixed(1)+','+Y(Math.min(hi,Math.max(lo,v))).toFixed(1)}).join(' ')+'"/>';
+  (pts||[]).forEach(function(v,i){s+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(Math.min(hi,Math.max(lo,v))).toFixed(1)+'" r="3.5" fill="var(--card)" stroke="var(--warn)" stroke-width="2"/>'});
+  s+='<text class="tx" x="'+(L+pw/2)+'" y="'+(H-0)+'" text-anchor="middle" dy="-0">năm</text>';
+  $(id).innerHTML=s;
+}
+function firstBelow(rows,lim){for(var i=0;i<rows.length;i++)if(rows[i].soh<=lim)return 'Năm '+rows[i].y;return 'Sau năm 25'}
+function run(){
+  var p={chem:$('chem').value,T:+$('T').value,C:+$('C').value,n:+$('N').value,D:+$('D').value/100,rth:+$('cool').value,mods:+$('M').value,rte0:+$('R').value,sol:+$('S').value};
+  p.E=p.chem==='SIG'?p.mods*12.06:0;p.r1=.995-p.rte0/100;$('vR').textContent=p.rte0.toFixed(1)+'%';var ref=p.E&&p.T==25&&p.C==.5&&p.n==2&&p.D==1;$('M').disabled=!p.E;$('ds').style.display=p.E?'block':'none';$('vM').textContent=p.E?p.mods+' ('+p.E.toFixed(1)+' kWh)':'không áp dụng';
+  $('vT').textContent=p.T+' °C';$('vC').textContent=p.C+'C';$('vN').textContent=p.n;$('vD').textContent=Math.round(p.D*100)+'%';
+  var o=sim(p),r=o.rows,a=r[0],z=r[25],f1=function(v){return v.toFixed(1)};
+  var w=[];
+  if(o.hrs>24)w.push('Không khả thi: '+o.hrs.toFixed(1)+' giờ vận hành mỗi ngày vượt 24 giờ. Hãy giảm số chu kỳ hoặc tăng C-rate.');
+  var mt=Math.max.apply(null,r.map(function(x){return x.th}));
+  var cc=CH[p.chem],tmax=cc.tmax||45,tmin=cc.tmin===undefined?-10:cc.tmin,cmax=cc.cmax||2;
+  if(mt>tmax)w.push('Nhiệt độ làm việc đạt '+f1(mt)+' °C, vượt giới hạn '+tmax+' °C. Cần tăng cường làm mát hoặc giảm C-rate.');
+  if(p.T<tmin)w.push('Nhiệt độ môi trường thấp hơn giới hạn vận hành '+tmin+' °C.');
+  if(p.C>cmax)w.push('C-rate '+p.C+'C vượt mức tối đa '+cmax+'C theo datasheet.');
+  if(p.T<5)w.push('Môi trường dưới 5 °C: nguy cơ mạ lithium khi sạc dòng lớn, nên giảm C-rate khi sạc.');
+  var we=$('warn');we.style.display=w.length?'block':'none';we.textContent=w.join(' ');
+  $('kpi').innerHTML=[['SoH năm 25',f1(z.soh)+'%'],['Đạt SoH 80%',firstBelow(r,80)],['Đạt SoH 70%',firstBelow(r,70)],['Đạt SoH 60%',firstBelow(r,60)],['RTE đầu → năm 25',f1(a.rte)+' → '+f1(z.rte)+'%'],['Cell nóng nhất đầu → năm 25',f1(a.th)+' → '+f1(z.th)+' °C'],['Giờ vận hành/ngày',o.hrs.toFixed(1)+' h']].concat(p.E?[['Khả dụng năm 25',(p.E*z.soh/100).toFixed(1)+' kWh']]:[]).map(function(k){return '<div class="card"><small>'+k[0]+'</small><strong>'+k[1]+'</strong></div>'}).join('');
+  chart('c1',r.map(function(x){return x.soh}),'--soh',40,100,function(v){return v.toFixed(0)},[80,70,60],p.E?REF:null);
+  var mx=0;for(var k=0;k<14;k++)mx=Math.max(mx,Math.abs(r[k].soh-REF[k]));
+  $('cap').textContent=p.E?'Chấm tròn: SoH do nhà sản xuất cung cấp (25°C, 0,5C, 2 chu kỳ/ngày, 365 ngày/năm), năm 0–13.'+(ref?' Đang ở điều kiện chuẩn, sai lệch tối đa '+mx.toFixed(2)+' điểm phần trăm.':''):'';
+  var rl=Math.floor(Math.min.apply(null,r.map(function(x){return x.rte}))/2)*2-2;
+  chart('c2',r.map(function(x){return x.rte}),'--rte',Math.max(0,rl),100,function(v){return v.toFixed(0)});
+  var tl=Math.floor(Math.min(p.T,-0)/10)*10,th=Math.ceil((mt+2)/10)*10;
+  chart('c3',r.map(function(x){return x.tc}),'--tmp',Math.min(tl,p.T-5),Math.max(th,p.T+10),function(v){return v.toFixed(0)},null,null,r.map(function(x){return x.th}));
+  $('cap3').textContent='Nét liền: cell trung bình cuối pha xả; nét đứt: cell nóng nhất trong module. Cell đạt '+(o.ph*100).toFixed(0)+'% nhiệt độ ổn định (hằng số thời gian '+(o.tau/60).toFixed(0)+' phút).';
+  $('tb').innerHTML='<tr><th>Năm</th><th>SoH (%)</th><th>RTE (%)</th><th>Cell trung bình (°C)</th><th>Cell nóng nhất (°C)</th><th>Rᵢ / Rᵢ đầu đời</th><th>Chu kỳ đầy tích lũy</th>'+(p.E?'<th>Khả dụng (kWh)</th><th>SoH nhà sản xuất (%)</th>':'')+(ref?'<th>Chênh lệch (điểm)</th>':'')+'</tr>'+r.map(function(x){return '<tr><td>'+x.y+'</td><td>'+f1(x.soh)+'</td><td>'+f1(x.rte)+'</td><td>'+f1(x.tc)+'</td><td>'+f1(x.th)+'</td><td>'+x.rr.toFixed(2)+'</td><td>'+Math.round(x.efc)+'</td>'+(p.E?'<td>'+(p.E*x.soh/100).toFixed(1)+'</td><td>'+(x.y<14?REF[x.y].toFixed(2):'—')+'</td>':'')+(ref?'<td>'+(x.y<14?(x.soh-REF[x.y]).toFixed(2):'—')+'</td>':'')+'</tr>'}).join('');
+}
+['chem','T','C','N','D','M','R','cool','S'].forEach(function(i){$(i).addEventListener('input',run)});
+$('chem').addEventListener('change',function(){$('R').value=((.995-CH[$('chem').value].r1)*100).toFixed(1);run()});
+$('ref').addEventListener('click',function(){$('chem').value='SIG';$('R').value=97.5;$('S').value=0;$('T').value=25;$('C').value=.5;$('N').value=2;$('D').value=100;run()});
+run();
+</script>
+<script>if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});</script>
+</body>
+</html>
